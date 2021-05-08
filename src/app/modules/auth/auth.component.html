@@ -1,1 +1,23 @@
-<p>auth works!</p>
+<!-- Logo -->
+<div class="container p-3">
+    <a (click)="goToLogin()">
+        RX Check
+    </a>
+</div>
+
+<div class="sub-header">
+    <div class="container mx-auto row no-gutters flex-column d-flex justify-content-center">
+        <div class="col d-flex align-items-center">
+            <router-outlet #outlet="outlet"></router-outlet>
+        </div>
+        <div class="col-6">
+            <img src="./assets/prescriptions.png" alt="Prescription">
+        </div>
+
+        <div class="col-auto">
+            <!-- Footer -->
+            <footer class="align-items-center pb-4 row w-100 justify-content-center">
+            </footer>
+        </div>
+    </div>
+</div>
