@@ -1,6 +1,5 @@
 import { Component, OnDestroy, Optional } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ActionButtonsService } from '@app/services/action-buttons.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,10 +10,8 @@ import { Subscription } from 'rxjs';
 export class BaseComponent implements OnDestroy {
 
     protected subscriptions: Subscription = new Subscription();
-    // protected actionButtonsService: ActionButtonsService;
 
     constructor() {
-        // this.actionButtonsService = new ActionButtonsService();
     }
 
     prepareRoute(outlet: RouterOutlet): string | undefined | null {
@@ -22,7 +19,6 @@ export class BaseComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        // this.actionButtonsService.buttonsData = { visible: false };
         this.subscriptions.unsubscribe();
     }
 }

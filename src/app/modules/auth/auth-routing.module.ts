@@ -13,8 +13,8 @@ const routes: Routes = [
         canActivate: [LoginGuard],
         children: [
             { path: '', component: LoginComponent },
-            { path: 'password/reset', component: RecoverPassComponent },
-            { path: 'password/reset/:token', component: RecoverPassComponent },
+            { path: 'reset', component: RecoverPassComponent },
+            { path: 'reset/:token', component: RecoverPassComponent },
         ],
     }];
 

@@ -1,1 +1,45 @@
-<p>login works!</p>
+<div class="row pb-4" [formGroup]="loginForm">
+    <div class="col-12">
+        <h2>Login</h2>
+    </div>
+    <mat-form-field class="col-12">
+        <input [autofocus] type="email" matInput placeholder="e-mail" formControlName="email"
+            (keyup.enter)="pressEnter($event)" />
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            e-mail é
+            <strong>obrigatório</strong>
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+            e-mail é
+            <strong>inválido</strong>
+        </mat-error>
+
+        <mat-error *ngIf="loginForm.get('email')?.hasError('server')">
+            {{ loginForm.get('email')?.getError('server').message }}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col-12 mt-3">
+        <input [autofocus] type="password" matInput placeholder="palavra-passe" formControlName="password"
+            (keyup.enter)="pressEnter($event)" />
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            palavra-passe é
+            <strong>obrigatória</strong>
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('server')">
+            {{ loginForm.get('email')?.getError('server').message }}
+        </mat-error>
+    </mat-form-field>
+
+    <div class="col-12">
+        <small>
+            <a href="/auth/reset">recuperar palavra-passe</a>
+        </small>
+    </div>
+
+    <div class="col-auto ml-auto">
+        <button mat-raised-button color="primary" (click)="submitForm()">
+            entrar
+        </button>
+    </div>
+</div>
