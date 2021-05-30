@@ -1,0 +1,72 @@
+@import './../../../ui/mixins-grid.scss';
+
+:host {
+    mat-drawer-container {
+        background: rgb(242, 242, 255);
+
+        mat-drawer {
+            width: 80vw;
+            box-shadow: none;
+            border: none;
+
+            @media screen and (min-width: 992px) {
+                @include make-width();
+            }
+        }
+
+        mat-drawer-content {
+            height: auto;
+
+            @media screen and (min-width: 992px) {
+                @include make-drawer-width();
+
+                ::ng-deep {
+                    .container {
+                        @include make-container-width();
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    ul.links {
+        list-style-type: none;
+        padding: 0 0 0 10px;
+
+        @include make-space(padding-left);
+
+        li {
+            text-decoration: underline;
+            margin: 24px 0;
+            padding: 0 30px;
+
+            a {
+                text-transform: lowercase;
+                text-decoration: underline;
+                font-size: 14px;
+                letter-spacing: 0.4px;
+                color: #f2f2ff;
+                color: #4d4d44;
+                text-transform: uppercase;
+                font-size: 11px;
+                letter-spacing: 1.5px;
+
+                &:hover,
+                &.active {
+                    color: #0d0d00;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+
+                &.copyright {
+                    font-size: 12px;
+                    text-decoration: none;
+                    text-transform: initial;
+                }
+            }
+        }
+    }
+}

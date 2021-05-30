@@ -8,7 +8,6 @@ const routes: Routes = [
     {
         path: '',
         component: DashboardComponent,
-        // resolve: { user: UserResolver },
         canActivate: [AuthGuard],
         children: [
             {

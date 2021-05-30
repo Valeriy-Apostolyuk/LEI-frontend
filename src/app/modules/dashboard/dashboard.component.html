@@ -1,1 +1,30 @@
-<p>dashboard works!</p>
+<app-header (toggleMenu)="toggleMenu()"></app-header>
+<div class="sub-header">
+    <mat-drawer-container class="h-100" [hasBackdrop]="!desktopLayout">
+
+        <!-- FM menu -->
+        <mat-drawer #menu [mode]="mode" [opened]="desktopLayout">
+            <div class="flex-column row no-gutters active">
+
+                <ul class="links">
+                    <li>
+                        <a routerLinkActive="active" [routerLink]="['/']" [routerLinkActiveOptions]="{ exact: true }">
+                            início
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLinkActive="active" [routerLink]="['/history']"
+                            [routerLinkActiveOptions]="{ exact: true }">
+                            histórico
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </mat-drawer>
+
+        <mat-drawer-content>
+            <router-outlet></router-outlet>
+
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { BaseComponent } from './base/base.component';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { HeaderComponent } from './header/header.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
     declarations: [
@@ -15,6 +17,8 @@ import { HeaderComponent } from './header/header.component';
     ],
     imports: [
         CommonModule,
+        MatMenuModule,
+        MatDividerModule
     ]
 })
 export class SharedModule {

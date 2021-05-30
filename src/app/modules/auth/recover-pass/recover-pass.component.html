@@ -1,1 +1,63 @@
-<p>recover-pass works!</p>
+<div class="row pb-4">
+    <div class="col-12">
+        <h2>Recuperar palavra-passe</h2>
+    </div>
+
+    <!-- Token is set in the Url but it's invalid -->
+    <ng-container *ngIf="token && invalidToken">
+        <div class="col-12">
+            O código fornecido já foi usado ou expirou.
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!invalidToken">
+        <ng-container [formGroup]="emailForm" *ngIf="!token; else passwordSection">
+            <mat-form-field class="col-12">
+                <input [autofocus] type="email" matInput placeholder="e-mail" formControlName="email"
+                    (keyup.enter)="pressEnter($event)" />
+                <mat-error *ngIf="emailForm.get('email')?.hasError('required')">
+                    e-mail é
+                    <strong>obrigatório</strong>
+                </mat-error>
+            </mat-form-field>
+        </ng-container>
+
+        <ng-template #passwordSection>
+            <ng-container [formGroup]="resetForm">
+                <mat-form-field class="col-12">
+                    <input [autofocus] type="password" matInput placeholder="palavra-passe" formControlName="password"
+                        (keyup.enter)="pressEnter($event)" />
+                    <mat-error *ngIf="resetForm.get('password')?.hasError('required')">
+                        palavra-passe é
+                        <strong>obrigatória</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-12 mt-3">
+                    <input type="password" matInput placeholder="confirmar" formControlName="passwordConfirm"
+                        (keyup.enter)="pressEnter($event)" />
+                    <mat-error *ngIf="resetForm.get('passwordConfirm')?.hasError('required')">
+                        confirmação é
+                        <strong>obrigatória</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-error class="custom-error" *ngIf="resetForm.hasError('passwordConfirmation')">
+                    palavra-passe
+                    <strong>não coincide</strong>
+                </mat-error>
+            </ng-container>
+        </ng-template>
+    </ng-container>
+    
+    <div class="col-12">
+        <small>
+            <a href="/auth">iniciar sessão</a>
+        </small>
+    </div>
+
+    <div class="col-auto ml-auto">
+        <button mat-raised-button color="primary" (click)="submitForm()">
+            submeter
+        </button>
+    </div>
+</div>

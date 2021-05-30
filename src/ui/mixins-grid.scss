@@ -1,0 +1,40 @@
+@import "./bootstrap/functions";
+@import "./bootstrap/variables";
+@import "./bootstrap/mixins/breakpoints";
+
+@mixin make-space($location, $additional: 0px, $max-widths: $container-max-widths, $breakpoints: $grid-breakpoints) {
+    @each $breakpoint, $container-max-width in $max-widths {
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            #{$location}: calc(#{$additional} + ((100vw - #{$container-max-width}) / 2));
+        }
+    }
+}
+
+@mixin make-width($location: width, $max-widths: $container-max-widths, $breakpoints: $grid-breakpoints) {
+    @each $breakpoint, $container-max-width in $max-widths {
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            #{$location}: calc(230px + ((100vw - #{$container-max-width}) / 2));
+        }
+    }
+}
+
+@mixin make-container-width(
+    $location: max-width,
+    $default: 230px,
+    $max-widths: $container-max-widths,
+    $breakpoints: $grid-breakpoints
+) {
+    @each $breakpoint, $container-max-width in $max-widths {
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            #{$location}: calc(#{$container-max-width} - #{$default});
+        }
+    }
+}
+
+@mixin make-drawer-width($max-widths: $container-max-widths, $breakpoints: $grid-breakpoints) {
+    @each $breakpoint, $container-max-width in $max-widths {
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            width: calc(100vw - 230px - ((100vw - #{$container-max-width}) / 2));
+        }
+    }
+}

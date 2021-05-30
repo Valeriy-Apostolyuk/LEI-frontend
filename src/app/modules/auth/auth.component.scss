@@ -3,4 +3,14 @@
         border-radius: 10px;
         border: 1px solid black;
     }
+
+    ::ng-deep {
+        h2 {
+            font-weight: 400;
+        }
+
+        a {
+            color: gray;
+        }
+    }
 }

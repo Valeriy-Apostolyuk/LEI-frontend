@@ -1,7 +1,33 @@
-<div class="row header">
-    <div class="col-auto">
-        <a (click)="goToLogin()">
-            RX Check
-        </a>
+<div class="wrapper">
+    <div class="container">
+        <div class="row align-items-center header">
+            <div class="col-auto">
+                <p (click)="logoClicked()">
+                    RX Check
+                </p>
+            </div>
+            <ng-container *ngIf="user">
+                <div class="col-auto ml-auto">
+                    <span class="name">
+                        {{ user.name.split(' ')[0] }}
+                    </span>
+                </div>
+
+                <div class="col-auto letter px-0 mr-3" [matMenuTriggerFor]="menu">
+                    <span>
+                        {{ user.name[0] }}
+                    </span>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="goTo('/settings')">
+                            definições
+                        </button>
+                        <mat-divider></mat-divider>
+                        <button mat-menu-item (click)="logout()">
+                            terminar sessão
+                        </button>
+                    </mat-menu>
+                </div>
+            </ng-container>
+        </div>
     </div>
 </div>

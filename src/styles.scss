@@ -10,6 +10,14 @@ body {
     margin: 0;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
     background: rgb(242, 242, 255);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-weight: 500;
+    }
 }
 
 @import 'ui/bootstrap/bootstrap-grid.scss';
@@ -19,5 +27,6 @@ body {
 }
 
 .sub-header {
-    min-height: calc(100% - #{$header-height});
+    max-height: calc(100% - #{$header-height});
+    height: 100%;
 }

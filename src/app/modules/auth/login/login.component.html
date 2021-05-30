@@ -20,7 +20,7 @@
     </mat-form-field>
 
     <mat-form-field class="col-12 mt-3">
-        <input [autofocus] type="password" matInput placeholder="palavra-passe" formControlName="password"
+        <input type="password" matInput placeholder="palavra-passe" formControlName="password"
             (keyup.enter)="pressEnter($event)" />
         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
             palavra-passe é
