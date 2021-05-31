@@ -1,0 +1,16 @@
+<div class="row no-gutters mb-4" [formGroup]="episodeForm">
+    <div class="col-12">
+        <h4>Detalhes do episódio</h4>
+    </div>
+    <mat-form-field class="col-12">
+        <input type="text" matInput placeholder="causa" formControlName="cause" />
+    </mat-form-field>
+    <mat-form-field class="col-12">
+        <input type="text" matInput placeholder="diagnóstico" formControlName="diagnosis" />
+    </mat-form-field>
+    <mat-form-field class="col-12">
+        <mat-label>notas</mat-label>
+        <textarea matInput formControlName="notes" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+</div>

@@ -1,0 +1,19 @@
+<div class="row no-gutters mb-4">
+    <div class="col-12">
+        <h4 class="mt-0">Prescrições anteriores</h4>
+    </div>
+    <div class="col-12 row mt-1" *ngFor="let prescription of previous_prescriptions">
+        <div class="col-auto">
+            {{ prescription.date }}
+        </div>
+        <div class="col-auto px-0">-</div>
+        <div class="col">
+            {{ prescription.drug }} <em>{{ prescription.dose }}</em>
+        </div>
+    </div>
+    <div class="col-auto ml-auto mt-3">
+        <button mat-stroked-button color="primary">
+            ver +
+        </button>
+    </div>
+</div>

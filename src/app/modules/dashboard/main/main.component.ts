@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert-service.service';
 import { EpisodesService } from 'src/app/services/episodes.service';
 import { BaseComponent } from 'src/app/shared/base/base.component';
 
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { User } from 'src/app/models/User';
+import { PrescriptionComponent } from './prescription/prescription.component';
 
 @Component({
     selector: 'app-main',
@@ -16,10 +18,14 @@ export class MainComponent extends BaseComponent implements OnInit {
 
     episodeControl = new FormControl('', []);
     episodes: string[] = [];
+    previous_prescriptions: any[] = [];
     filteredOptions: Observable<string[]> | any;
+    prescriptions = [];
 
     selectedEpisode: any;
+    patient?: User;
 
+    @ViewChildren(PrescriptionComponent) prescriptionComponents!: QueryList<PrescriptionComponent>;
 
     constructor(
         private readonly episodesService: EpisodesService,
@@ -30,10 +36,15 @@ export class MainComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.filteredOptions = this.episodeControl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filter(value))
-        );
+        this.subscriptions.add(
+            this.episodeControl.valueChanges.pipe(
+                startWith(''),
+                distinctUntilChanged(),
+                debounceTime(150)).subscribe((val) => {
+                    this._filter(val);
+                    this.checkValue();
+                })
+        )
 
     }
 
@@ -49,8 +60,30 @@ export class MainComponent extends BaseComponent implements OnInit {
         );
     }
 
-    private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-        return this.episodes?.map(ep => ep + '').filter(episode => episode.toLowerCase().indexOf(filterValue) === 0);
+    getDetails(option: any) {
+        this.subscriptions.add(
+            this.episodesService.getDetails(option).subscribe((res) => {
+                if (res.data) {
+                    this.selectedEpisode = res.data.episode;
+                    this.patient = new User(res.data.patient);
+                    this.previous_prescriptions = res.data.previous_prescriptions;
+                    console.log(res.data);
+                } else {
+                    this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
+                }
+            }, (res) => this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez'))
+        );
+    }
+
+    checkValue() {
+        let value = this.episodeControl.value;
+        if (this.episodes.find(ep => ep == value)) {
+            this.getDetails(value);
+        }
+    }
+
+    private _filter(value: string) {
+        const filterValue = value?.toLowerCase();
+        this.filteredOptions = this.episodes?.map(ep => ep + '').filter(episode => episode.toLowerCase().indexOf(filterValue) == 0);
     }
 }

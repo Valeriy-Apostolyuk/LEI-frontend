@@ -1,0 +1,15 @@
+:host {
+    ::ng-deep {
+        .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+            background-color: rgba(0, 0, 0, 0.42);
+            background-image: none;
+        }
+
+        .icon {
+            width: 80px;
+        }
+        .col-auto.button {
+            width: 80px;
+        }
+    }
+}

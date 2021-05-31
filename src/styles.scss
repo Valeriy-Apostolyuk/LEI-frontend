@@ -26,7 +26,6 @@ body {
     height: $header-height;
 }
 
-.sub-header {
-    max-height: calc(100% - #{$header-height});
-    height: 100%;
+.sub-header, .sub-header mat-drawer-container {
+    min-height: calc(100vh - #{$header-height});
 }

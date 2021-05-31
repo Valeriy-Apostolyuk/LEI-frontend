@@ -1,0 +1,19 @@
+<div class="row align-items-center" [formGroup]="prescriptionForm">
+    <mat-form-field class="col-6">
+        <input type="text" matInput formControlName="drug" />
+    </mat-form-field>
+    <mat-form-field class="col">
+        <input type="text" matInput formControlName="dose" />
+    </mat-form-field>
+    <mat-form-field class="col">
+        <input type="text" matInput formControlName="quantity" />
+    </mat-form-field>
+    <div class="col-auto icon"></div>
+    <div class="col-auto icon"></div>
+    <div class="col-auto button">
+        <button mat-stroked-button color="primary">
+            +
+        </button>
+    </div>
+    <div class="w-100"></div>
+</div>

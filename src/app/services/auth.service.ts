@@ -26,7 +26,6 @@ export class AuthService {
         this.userDataChange.next(new User(user));
     }
 
-
     get isLoggedIn(): Observable<boolean> {
         return this.loggedIn.asObservable();
     }
@@ -34,7 +33,6 @@ export class AuthService {
     get user(): User | null {
         return this.userDataChange.value;
     }
-
 
     authenticate() {
         return of(new Object({'data': {name: 'Valeriy Apostolyuk', email: 'email@email.com'} }));
@@ -56,6 +54,10 @@ export class AuthService {
     login(credentials: any): Observable<any> {
         return of(new Object({ 'status': true, 'access_token': 'aaaaa', 'data': {name: 'Valeriy Apostolyuk', email: 'email@email.com'} }));
         return this._http.post(`${environment.API_URL}auth/login`, credentials);
+    }
+
+    refresh(): Observable<any> {
+        return this._http.post(`${environment.API_URL}auth/refresh`, null);
     }
 
     logout(): void {

@@ -1,0 +1,14 @@
+<div class="row no-gutters mb-4" [formGroup]="patientForm">
+    <div class="col-12">
+        <h4 class="mt-0">Detalhes do paciente</h4>
+    </div>
+    <mat-form-field class="col-12">
+        <input type="text" matInput placeholder="nome" formControlName="name" />
+    </mat-form-field>
+    <mat-form-field class="col-6 pr-3">
+        <input type="text" matInput placeholder="idade" formControlName="age" />
+    </mat-form-field>
+    <mat-form-field class="col-6 pl-3">
+        <input type="text" matInput placeholder="sexo" formControlName="gender" />
+    </mat-form-field>
+</div>

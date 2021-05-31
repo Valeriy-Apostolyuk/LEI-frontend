@@ -4,9 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { JwtModule } from '@auth0/angular-jwt';
+import { SessionsExpiredInterceptor } from './interceptors/sessionsExpiredInterceptor';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,13 @@ import { JwtModule } from '@auth0/angular-jwt';
             }
         }),
     ],
-    providers: [],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: SessionsExpiredInterceptor,
+            multi: true
+        },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

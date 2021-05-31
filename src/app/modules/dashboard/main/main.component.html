@@ -1,18 +1,54 @@
 <div class="container">
-    <div class="row">
+    <div class="row row align-items-start">
         <div class="col-12">
             <h3>Criar prescrição</h3>
         </div>
 
-        <mat-form-field class="col-12 col-md-6">
-            <input type="text" matInput placeholder="episódio" [formControl]="episodeControl"
-                [matAutocomplete]="auto" />
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                    {{ option }}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+        <div class="col-12 col-md-6">
+            <mat-form-field class="w-100">
+                <input type="text" matInput placeholder="episódio" [formControl]="episodeControl"
+                    [matAutocomplete]="auto" />
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
 
+            <app-episode [episode]="selectedEpisode" *ngIf="selectedEpisode">
+            </app-episode>
+        </div>
+
+        <ng-container *ngIf="selectedEpisode">
+            <div class="col-12 col-md-6">
+                <app-patient [patient]="patient">
+                </app-patient>
+                <app-previous [previous_prescriptions]="previous_prescriptions">
+                </app-previous>
+            </div>
+
+            <div class="col-12 px-0 row">
+                <div class="col-12">
+                    <h4>Prescrição</h4>
+                </div>
+                <div class="col-6">
+                    Medicamento
+                </div>
+                <div class="col">
+                    Dose
+                </div>
+                <div class="col">
+                    Quantidade
+                </div>
+                <div class="col-auto icon"></div>
+                <div class="col-auto icon"></div>
+                <div class="col-auto button"></div>
+
+                <app-prescription class="d-flex col-12 px-0" *ngFor="let prescription of prescriptions"
+                    [prescription]="prescription">
+                </app-prescription>
+                <app-prescription class="d-flex col-12 px-0"></app-prescription>
+            </div>
+        </ng-container>
     </div>
 </div>
