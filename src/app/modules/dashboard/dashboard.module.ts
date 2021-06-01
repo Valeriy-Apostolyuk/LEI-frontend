@@ -16,7 +16,7 @@ import { PreviousComponent } from './main/previous/previous.component';
 import { EpisodeComponent } from './main/episode/episode.component';
 import { ViewMoreComponent } from './main/previous/view-more/view-more.component';
 import { PrescriptionComponent } from './main/prescription/prescription.component';
-
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -32,6 +32,7 @@ import { PrescriptionComponent } from './main/prescription/prescription.componen
         MatButtonModule,
         MatAutocompleteModule,
         MatSelectModule,
+        MatIconModule
     ]
 })
 export class DashboardModule { }

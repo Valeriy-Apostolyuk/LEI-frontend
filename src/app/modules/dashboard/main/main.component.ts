@@ -20,10 +20,10 @@ export class MainComponent extends BaseComponent implements OnInit {
     episodes: string[] = [];
     previous_prescriptions: any[] = [];
     filteredOptions: Observable<string[]> | any;
-    prescriptions = [];
+    prescriptions: any = [];
 
     selectedEpisode: any;
-    patient?: User;
+    patient?: User | null;
 
     @ViewChildren(PrescriptionComponent) prescriptionComponents!: QueryList<PrescriptionComponent>;
 
@@ -45,7 +45,6 @@ export class MainComponent extends BaseComponent implements OnInit {
                     this.checkValue();
                 })
         )
-
     }
 
     fetchData() {
@@ -67,7 +66,6 @@ export class MainComponent extends BaseComponent implements OnInit {
                     this.selectedEpisode = res.data.episode;
                     this.patient = new User(res.data.patient);
                     this.previous_prescriptions = res.data.previous_prescriptions;
-                    console.log(res.data);
                 } else {
                     this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
                 }
@@ -79,7 +77,26 @@ export class MainComponent extends BaseComponent implements OnInit {
         let value = this.episodeControl.value;
         if (this.episodes.find(ep => ep == value)) {
             this.getDetails(value);
+        } else {
+            this.selectedEpisode = null;
+            this.patient = null;
+            this.previous_prescriptions = [];
         }
+    }
+
+    addPrescription() {
+        let new_prescription = this.prescriptionComponents.last.addPrescription();
+        if (new_prescription) {
+            this.prescriptions.push(new_prescription);
+        }
+    }
+
+    removePrescription(index: any) {
+        this.prescriptions.splice(index, 1);
+    }
+
+    submit() {
+        console.log('submit');
     }
 
     private _filter(value: string) {

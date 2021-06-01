@@ -31,23 +31,29 @@
                 <div class="col-12">
                     <h4>Prescrição</h4>
                 </div>
-                <div class="col-6">
+                <div class="col">
                     Medicamento
                 </div>
-                <div class="col">
+                <div class="col-auto input">
                     Dose
                 </div>
-                <div class="col">
+                <div class="col-auto input">
                     Quantidade
                 </div>
                 <div class="col-auto icon"></div>
-                <div class="col-auto icon"></div>
                 <div class="col-auto button"></div>
 
-                <app-prescription class="d-flex col-12 px-0" *ngFor="let prescription of prescriptions"
-                    [prescription]="prescription">
+                <app-prescription class="d-flex col-12 px-0" *ngFor="let prescription of prescriptions; let i = index"
+                    [prescription]="prescription" (removePrescription)="removePrescription(i)">
                 </app-prescription>
-                <app-prescription class="d-flex col-12 px-0"></app-prescription>
+                <app-prescription class="d-flex col-12 px-0" (addPrescriptionEmitter)="addPrescription()">
+                </app-prescription>
+            </div>
+
+            <div class="col-auto ml-auto mt-5">
+                <button mat-raised-button color="primary" (click)="submit()">
+                    concluir
+                </button>
             </div>
         </ng-container>
     </div>

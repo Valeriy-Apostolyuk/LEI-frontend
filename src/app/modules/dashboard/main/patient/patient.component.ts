@@ -9,7 +9,7 @@ import { User } from 'src/app/models/User';
 })
 export class PatientComponent implements OnInit {
 
-    @Input() patient?: User;
+    @Input() patient?: User | null;
     patientForm = new FormGroup({
         id: new FormControl(),
         name: new FormControl(),

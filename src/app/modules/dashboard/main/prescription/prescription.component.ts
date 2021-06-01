@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/base/base.component';
 
@@ -10,6 +10,8 @@ import { BaseComponent } from 'src/app/shared/base/base.component';
 export class PrescriptionComponent extends BaseComponent implements OnInit {
 
     @Input() prescription: any;
+    @Output() addPrescriptionEmitter = new EventEmitter();
+    @Output() removePrescription = new EventEmitter();
 
     prescriptionForm = new FormGroup({
         drug: new FormControl(null, [Validators.required]),
@@ -18,14 +20,29 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
     })
     constructor() {
         super();
+    }
 
+    ngOnInit(): void {
         if (this.prescription) {
             this.prescriptionForm.patchValue(this.prescription);
             this.prescriptionForm.disable();
         }
     }
 
-    ngOnInit(): void {
-    }
+    addPrescription() {
+        this.prescriptionForm.markAllAsTouched();
+        const controls = this.prescriptionForm.controls;
+        for (const name in controls) {
+            controls[name].markAsDirty();
+            controls[name].updateValueAndValidity({ emitEvent: false });
+        }
 
+        if (this.prescriptionForm.valid) {
+            const value = this.prescriptionForm.value;
+            this.prescriptionForm.reset();
+            return value;
+        }
+
+        return null;
+    }
 }

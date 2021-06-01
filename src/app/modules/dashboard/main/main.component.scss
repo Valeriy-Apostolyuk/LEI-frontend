@@ -5,11 +5,21 @@
             background-image: none;
         }
 
-        .icon {
-            width: 80px;
+        .col-auto.icon {
+            width: 40px;
+            padding: 0;
+            mat-icon {
+                cursor: pointer;
+            }
         }
         .col-auto.button {
-            width: 80px;
+            width: 94px;
+            mat-icon {
+                cursor: pointer;
+            }
+        }
+        .col-auto.input {
+            width: 115px;
         }
     }
 }
