@@ -1,6 +1,11 @@
 <div class="row align-items-center w-100" [formGroup]="prescriptionForm">
     <mat-form-field class="col">
-        <input type="text" matInput formControlName="drug" />
+        <input type="text" matInput formControlName="drug" [matAutocomplete]="auto" />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayName">
+            <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                {{ option.drug }}
+            </mat-option>
+        </mat-autocomplete>
     </mat-form-field>
     <mat-form-field class="col-auto input">
         <input type="text" matInput formControlName="dose" />
@@ -8,7 +13,9 @@
     <mat-form-field class="col-auto input">
         <input type="number" matInput formControlName="quantity" />
     </mat-form-field>
-    <div class="col-auto icon"></div>
+    <div class="col-auto icon danger">
+        <mat-icon *ngIf="interactions.length">error</mat-icon>
+    </div>
     <div class="col-auto button" *ngIf="prescription">
         <mat-icon (click)="removePrescription.emit()">cancel</mat-icon>
     </div>
