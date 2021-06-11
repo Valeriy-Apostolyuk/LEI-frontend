@@ -12,7 +12,7 @@ export class SessionsExpiredInterceptor implements HttpInterceptor {
         private authService: AuthService,
         private router: Router,
         private readonly _alertService: AlertService
-    ) {}
+    ) { }
 
     /**
      * Intercept every http request.
@@ -48,7 +48,7 @@ export class SessionsExpiredInterceptor implements HttpInterceptor {
                 } else {
                     // session expired
                     localStorage.setItem('previousUrl', this.router.url);
-                    
+                    this.authService.callback();
                     return EMPTY;
                 }
             } else if (err.status === 429) {

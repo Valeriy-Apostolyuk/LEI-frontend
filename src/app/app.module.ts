@@ -11,7 +11,7 @@ import { SessionsExpiredInterceptor } from './interceptors/sessionsExpiredInterc
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
@@ -26,8 +26,7 @@ import { SessionsExpiredInterceptor } from './interceptors/sessionsExpiredInterc
                     return localStorage.getItem("access_token");
                 },
                 allowedDomains: [
-                    'api.lei.com',
-                    'localhost:9090'
+                    'localhost:8000'
                 ],
             }
         }),

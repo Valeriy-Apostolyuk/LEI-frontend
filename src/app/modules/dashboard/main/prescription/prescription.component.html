@@ -1,28 +1,28 @@
 <div class="row align-items-center w-100" [formGroup]="prescriptionForm">
     <mat-form-field class="col">
-        <input type="text" matInput formControlName="drug" [matAutocomplete]="auto" />
+        <input name="drug" type="text" matInput formControlName="drug" [matAutocomplete]="auto" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayName">
             <mat-option *ngFor="let option of filteredOptions" [value]="option">
-                {{ option.drug }}
+                {{ option.name }}
             </mat-option>
         </mat-autocomplete>
+        <mat-error *ngIf="prescriptionForm.get('drug')?.hasError('invalid')">
+            medicamento <strong>inválido</strong>
+        </mat-error>
     </mat-form-field>
     <mat-form-field class="col-auto input">
-        <input type="text" matInput formControlName="dose" />
+        <input name="dose" type="text" matInput formControlName="dose" />
     </mat-form-field>
     <mat-form-field class="col-auto input">
-        <input type="number" matInput formControlName="quantity" />
+        <input name="quantity" type="number" matInput formControlName="quantity" />
     </mat-form-field>
     <div class="col-auto icon danger">
-        <mat-icon *ngIf="interactions.length">error</mat-icon>
+        <mat-icon *ngIf="interactions.length" (click)="openAlert()">error</mat-icon>
     </div>
-    <div class="col-auto button" *ngIf="prescription">
-        <mat-icon (click)="removePrescription.emit()">cancel</mat-icon>
-    </div>
-    <div class=" col-auto button" *ngIf="!prescription">
-        <button mat-stroked-button color="primary" (click)="addPrescriptionEmitter.emit()">
+    <div class="col-auto button">
+        <mat-icon (click)="removePrescription.emit()" *ngIf="prescription">cancel</mat-icon>
+        <button mat-stroked-button color="primary" (click)="addPrescriptionEmitter.emit()" *ngIf="!prescription">
             +
         </button>
     </div>
-    <div class="w-100"></div>
 </div>

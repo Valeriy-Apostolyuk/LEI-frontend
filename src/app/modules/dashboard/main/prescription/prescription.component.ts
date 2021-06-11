@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/base/base.component';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AlertService } from 'src/app/services/alert-service.service';
-import { DrugsService } from 'src/app/services/drugs.service';
+import { PrescriptionService } from 'src/app/services/prescription.service';
+import { MatDialog } from '@angular/material/dialog';
+import { InteractionsComponent } from './interactions/interactions.component';
 
 @Component({
     selector: 'app-prescription',
@@ -26,8 +28,9 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
     interactions: any;
 
     constructor(
-        private readonly drugsService: DrugsService,
+        private readonly prescriptionService: PrescriptionService,
         private readonly alertService: AlertService,
+        public dialog: MatDialog,
     ) {
         super();
         this._reset();
@@ -59,22 +62,51 @@ export class PrescriptionComponent extends BaseComponent implements OnInit {
 
         if (this.prescriptionForm.valid) {
             const value = this.prescriptionForm.value;
+            if (typeof (value.drug) == 'string') {
+                let options = this.filteredOptions.filter((op: any) => op.name === value.drug);
+                if (options.length === 1) {
+                    value.drug = options[0];
+                } else {
+                    this.prescriptionForm.get('drug')?.setErrors({ 'invalid': true })
+                    return null;
+                }
+            }
             this._reset();
             return value;
         }
 
+        this.alertService.openSnackError('Campos de preenchimento obrigatório');
         return null;
+    }
+
+    checkInputs() {
+        const controls = this.prescriptionForm.controls;
+        for (const name in controls) {
+            if (controls[name].value) {
+                return this.addPrescription();
+            }
+        }
+        this._reset();
+        return true;
+    }
+
+    openAlert(): void {
+        const dialogRef = this.dialog.open(InteractionsComponent, {
+            width: '100%',
+            maxWidth: '800px',
+            data: { interactions: this.interactions }
+        });
     }
 
     displayName(value: any) {
         if (value) {
-            return value.drug;
+            return value.name;
         }
     }
 
     private _fetchData(drug: string) {
         this.subscriptions.add(
-            this.drugsService.search({ drug }).subscribe((res) => {
+            this.prescriptionService.search(drug).subscribe((res) => {
                 if (res.data) {
                     this.filteredOptions = res.data;
                 } else {

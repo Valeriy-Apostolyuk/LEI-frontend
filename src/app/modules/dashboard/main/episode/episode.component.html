@@ -3,10 +3,14 @@
         <h4>Detalhes do episódio</h4>
     </div>
     <mat-form-field class="col-12">
-        <input type="text" matInput placeholder="causa" formControlName="cause" />
+        <mat-label>causa</mat-label>
+        <textarea matInput formControlName="cause" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
     </mat-form-field>
     <mat-form-field class="col-12">
-        <input type="text" matInput placeholder="diagnóstico" formControlName="diagnosis" />
+        <mat-label>diagnóstico</mat-label>
+        <textarea matInput formControlName="diagnosis" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
     </mat-form-field>
     <mat-form-field class="col-12">
         <mat-label>notas</mat-label>

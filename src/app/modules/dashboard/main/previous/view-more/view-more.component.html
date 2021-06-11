@@ -1,1 +1,41 @@
-<p>view-more works!</p>
+<div class="row no-gutters dialog-header">
+    <div class="col">
+        <h1 mat-dialog-title>Prescrições anteriores</h1>
+    </div>
+    <div class="col-4 patient">
+        <div class="row w-100 pt-2">
+            <div class="col-12">
+                {{ data.patient.name}}
+            </div>
+            <div class="col">
+                {{ data.patient.age + ' anos' }}
+            </div>
+            <div class="col">
+                {{ data.patient.gender }}
+            </div>
+        </div>
+    </div>
+</div>
+<div mat-dialog-content class="mt-4">
+    <mat-spinner class="mx-auto" diameter="40" *ngIf="loading"></mat-spinner>
+    <ng-container *ngIf="!loading">
+        <div class="row align-items-start" *ngFor="let prescription of prescriptions">
+            <h3 class="col-auto pl-0 mt-0"><strong>Prescrição #{{prescription.id}}</strong></h3>
+            <div class="col text-right">
+                {{ prescription.author.name }} <br>
+                <small> {{ prescription.date }} </small>
+            </div>
+            <div class="col-12 my-1" *ngFor="let drug of prescription.drugs">
+                <small>
+                    <mat-icon>remove</mat-icon>
+                </small>
+                {{ drug.drug_name }} <em>{{ drug.dose }}</em> - {{ drug.quantity + (drug.quantity > 1 ? ' unidades' : '
+                unidade') }}
+            </div>
+            <mat-divider class="col-12 my-4"></mat-divider>
+        </div>
+    </ng-container>
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" class="ml-auto" [mat-dialog-close]>fechar</button>
+</div>

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { PrescriptionComponent } from './prescription/prescription.component';
-import { DrugsService } from 'src/app/services/drugs.service';
+import { PrescriptionService } from 'src/app/services/prescription.service';
 
 @Component({
     selector: 'app-main',
@@ -22,6 +22,7 @@ export class MainComponent extends BaseComponent implements OnInit {
     previous_prescriptions: any[] = [];
     filteredOptions: Observable<string[]> | any;
     prescriptions: any = [];
+    hasInteractions = false;
 
     selectedEpisode: any;
     patient?: User | null;
@@ -30,12 +31,11 @@ export class MainComponent extends BaseComponent implements OnInit {
 
     constructor(
         private readonly episodesService: EpisodesService,
-        private readonly drugsService: DrugsService,
+        private readonly prescriptionService: PrescriptionService,
         private readonly alertService: AlertService,
         private readonly cdr: ChangeDetectorRef,
     ) {
         super();
-        this.fetchData();
     }
 
     ngOnInit(): void {
@@ -50,11 +50,13 @@ export class MainComponent extends BaseComponent implements OnInit {
         );
     }
 
-    fetchData() {
+    fetchData(filter = '', update = false) {
         this.subscriptions.add(
-            this.episodesService.getEpisodes().subscribe((res) => {
+            this.episodesService.getEpisodes(filter).subscribe((res) => {
                 if (res.data) {
                     this.episodes = res.data;
+                    if (update)
+                        this.filteredOptions = this.episodes;
                 } else {
                     this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
                 }
@@ -67,7 +69,7 @@ export class MainComponent extends BaseComponent implements OnInit {
             this.episodesService.getDetails(option).subscribe((res) => {
                 if (res.data) {
                     this.selectedEpisode = res.data.episode;
-                    this.patient = new User(res.data.patient);
+                    this.patient = new User(res.data.episode.patient);
                     this.previous_prescriptions = res.data.previous_prescriptions;
                 } else {
                     this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
@@ -81,9 +83,7 @@ export class MainComponent extends BaseComponent implements OnInit {
         if (this.episodes.find(ep => ep == value)) {
             this.getDetails(value);
         } else {
-            this.selectedEpisode = null;
-            this.patient = null;
-            this.previous_prescriptions = [];
+            this._reset();
         }
     }
 
@@ -101,25 +101,70 @@ export class MainComponent extends BaseComponent implements OnInit {
         this._validateInteractions();
     }
 
-    submit() {
-        console.log('submit');
+    checkSubmit() {
+        if (this.hasInteractions) {
+            this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
+            return;
+        }
+        const check = this.prescriptionComponents.last.checkInputs();
+        if (!check) {
+            return;
+        } else if (typeof (check) == 'object') {
+            this.prescriptions.push(check);
+            this.cdr.detectChanges();
+            this._validateInteractions(true);
+        } else {
+            this.submit();
+        }
     }
 
-    private _validateInteractions() {
+    submit() {
+        const data = {
+            drugs: this.prescriptions,
+            patient_id: this.selectedEpisode.patient.id
+        };
+
+        this.subscriptions.add(
+            this.prescriptionService.addPrescription(data).subscribe((res) => {
+                if (res.data) {
+                    this._reset();
+                    this.episodeControl.setValue('');
+                    this.alertService.openSnack('Prescrição adicionada com sucesso');
+                } else {
+                    this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
+                }
+            }, (res) => this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez'))
+        )
+    }
+
+    private _reset() {
+        this.selectedEpisode = null;
+        this.patient = null;
+        this.previous_prescriptions = [];
+        this.prescriptions = [];
+        this.hasInteractions = false;
+    }
+
+    private _validateInteractions(submit = false) {
         if (this.prescriptions.length > 1) {
-            const data = this.prescriptions.map((pr: any) => { return pr.id });
+            const data = this.prescriptions.map((pr: any) => { return pr.drug.id });
             this.subscriptions.add(
-                this.drugsService.getInteractions(data).subscribe((res) => {
+                this.prescriptionService.getInteractions(data).subscribe((res) => {
                     if (res.data) {
-                        this.prescriptionComponents.forEach((prescription: any) => {
-                            const current_id = prescription.prescriptionForm.get('drug').value?.id;
-                            if (current_id) {
-                                prescription.interactions = res.data.filter((int: any) => int.id === current_id || int.id_other === current_id);
-                            } else {
-                                prescription.interactions = [];
-                            }
-                            this.cdr.detectChanges();
-                        });
+                        this.hasInteractions = res.data.length;
+                        if (this.hasInteractions) {
+                            this.prescriptionComponents.forEach((prescription: any) => {
+                                const current_id = prescription.prescriptionForm.get('drug').value?.id;
+                                if (current_id) {
+                                    prescription.interactions = res.data.filter((int: any) => int.id_1 === current_id || int.id_2 === current_id);
+                                } else {
+                                    prescription.interactions = [];
+                                }
+                                this.cdr.detectChanges();
+                            });
+                        } else if (submit) {
+                            this.submit();
+                        }
                     } else {
                         this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
                     }
@@ -127,11 +172,16 @@ export class MainComponent extends BaseComponent implements OnInit {
             )
         } else {
             this.prescriptionComponents.first.interactions = [];
+            this.hasInteractions = false;
         }
     }
 
     private _filter(value: string) {
+        value = value + '';
         const filterValue = value?.toLowerCase();
         this.filteredOptions = this.episodes?.map(ep => ep + '').filter(episode => episode.toLowerCase().indexOf(filterValue) == 0);
+        if (this.filteredOptions.length < 10) {
+            this.fetchData(value, true);
+        }
     }
 }

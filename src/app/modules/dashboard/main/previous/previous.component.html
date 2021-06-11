@@ -2,18 +2,23 @@
     <div class="col-12">
         <h4 class="mt-0">Prescrições anteriores</h4>
     </div>
-    <div class="col-12 row mt-1" *ngFor="let prescription of previous_prescriptions">
-        <div class="col-auto">
-            {{ prescription.date }}
+    <ng-container *ngFor="let prescription of previous_prescriptions">
+        <div class="col-12 row mt-1" *ngFor="let drug of prescription.drugs">
+            <div class="col">
+                {{ drug.drug_name }} <em>{{ drug.dose }}</em>
+            </div>
+            <div class="col-auto">
+                <small>{{ prescription.date }}</small>
+            </div>
         </div>
-        <div class="col-auto px-0">-</div>
-        <div class="col">
-            {{ prescription.drug }} <em>{{ prescription.dose }}</em>
-        </div>
-    </div>
-    <div class="col-auto ml-auto mt-3">
-        <button mat-stroked-button color="primary">
+    </ng-container>
+    <div class="col-auto ml-auto mt-3" *ngIf="previous_prescriptions.length; else no_prescriptions">
+        <button mat-stroked-button color="primary" (click)="openDetails()">
             ver +
         </button>
     </div>
+    <ng-template #no_prescriptions>
+        <small><em>sem prescrições</em></small>
+    </ng-template>
+
 </div>

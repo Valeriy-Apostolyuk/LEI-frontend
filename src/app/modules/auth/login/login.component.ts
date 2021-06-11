@@ -51,7 +51,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.subscriptions.add(
             this.authService.login(this.loginForm.value).subscribe((res: any) => {
                 if (res.status) {
-                    this.authService.setSession(res.access_token);
+                    this.authService.setSession(res.token.token);
                     this.authService.loggedIn.next(true);
                     this.authService.setUser(res.data);
                     const previousUrl = localStorage.getItem('previousUrl');
@@ -63,12 +63,13 @@ export class LoginComponent extends BaseComponent implements OnInit {
                         this.router.navigate(['/']);
                     }
                 } else {
-                    Object.entries(res.errors).forEach((error: any) => {
+                    console.log(res);
+                    Object.entries(res.error).forEach((error: any) => {
                         this.alertService.openSnackError(error[1][0]);
                     });
                 }
             },
-                (res: HttpErrorResponse) => this.alertService.openSnackError(res.error.message)
+                (res: HttpErrorResponse) => this.alertService.openSnackError(res.error.error)
             )
         );
 

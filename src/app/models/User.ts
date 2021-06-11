@@ -9,5 +9,8 @@ export class User {
 
     constructor(obj: any) {
         Object.assign(this, _.cloneDeep(obj));
+        let today = new Date();
+        let birthDate = new Date(obj.date_of_birth);
+        this.age = today.getFullYear() - birthDate.getFullYear();
     }
 }

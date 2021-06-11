@@ -17,10 +17,15 @@ import { EpisodeComponent } from './main/episode/episode.component';
 import { ViewMoreComponent } from './main/previous/view-more/view-more.component';
 import { PrescriptionComponent } from './main/prescription/prescription.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { InteractionsComponent } from './main/prescription/interactions/interactions.component';
+import { HistoryComponent } from './history/history.component';
 
 
 @NgModule({
-    declarations: [DashboardComponent, MainComponent, PatientComponent, PreviousComponent, EpisodeComponent, ViewMoreComponent, PrescriptionComponent],
+    declarations: [DashboardComponent, MainComponent, PatientComponent, PreviousComponent, EpisodeComponent, ViewMoreComponent, PrescriptionComponent, InteractionsComponent, HistoryComponent],
     imports: [
         CommonModule,
         DashboardRoutingModule,
@@ -32,7 +37,10 @@ import { MatIconModule } from '@angular/material/icon';
         MatButtonModule,
         MatAutocompleteModule,
         MatSelectModule,
-        MatIconModule
+        MatIconModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        MatDividerModule,
     ]
 })
 export class DashboardModule { }

@@ -8,12 +8,12 @@ export class AlertService {
 
     constructor(
         private readonly snackBar: MatSnackBar
-    ) {}
+    ) { }
 
     openSnack(message: string = '', actionName: string | undefined = undefined, callback: any = undefined): void {
-
+        let duration = actionName ? 4000 : 2000;
         const snack = this.snackBar.open(message, actionName, {
-            duration: actionName ? 4000 : 2000,
+            duration: duration,
             panelClass: 'info-snack',
         });
 
@@ -24,6 +24,7 @@ export class AlertService {
 
     openSnackError(message: string = ''): void {
         this.snackBar.open(message, ' ', {
+            duration: 2000,
             panelClass: 'error-snack',
         });
     }
