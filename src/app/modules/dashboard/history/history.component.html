@@ -1,1 +1,23 @@
-<p>history works!</p>
+<div class="container">
+    <div class="row row align-items-start">
+        <div class="col-12">
+            <h3>Histórico do paciente</h3>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <mat-form-field class="w-100">
+                <input name="episode" type="text" matInput placeholder="paciente" [formControl]="patientControl"
+                    [matAutocomplete]="auto" />
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayName">
+                    <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                        {{ option.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+
+        <div class="col-12 mt-3" *ngIf="patient">
+            <app-patient-prescriptions [patient_id]="patient.id"></app-patient-prescriptions>
+        </div>
+    </div>
+</div>

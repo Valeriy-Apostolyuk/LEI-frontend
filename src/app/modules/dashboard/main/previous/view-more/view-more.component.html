@@ -17,24 +17,7 @@
     </div>
 </div>
 <div mat-dialog-content class="mt-4">
-    <mat-spinner class="mx-auto" diameter="40" *ngIf="loading"></mat-spinner>
-    <ng-container *ngIf="!loading">
-        <div class="row align-items-start" *ngFor="let prescription of prescriptions">
-            <h3 class="col-auto pl-0 mt-0"><strong>Prescrição #{{prescription.id}}</strong></h3>
-            <div class="col text-right">
-                {{ prescription.author.name }} <br>
-                <small> {{ prescription.date }} </small>
-            </div>
-            <div class="col-12 my-1" *ngFor="let drug of prescription.drugs">
-                <small>
-                    <mat-icon>remove</mat-icon>
-                </small>
-                {{ drug.drug_name }} <em>{{ drug.dose }}</em> - {{ drug.quantity + (drug.quantity > 1 ? ' unidades' : '
-                unidade') }}
-            </div>
-            <mat-divider class="col-12 my-4"></mat-divider>
-        </div>
-    </ng-container>
+    <app-patient-prescriptions [patient_id]="data.patient.id"></app-patient-prescriptions>
 </div>
 <div mat-dialog-actions>
     <button mat-raised-button color="primary" class="ml-auto" [mat-dialog-close]>fechar</button>

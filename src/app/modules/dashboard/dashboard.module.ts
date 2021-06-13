@@ -22,10 +22,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { InteractionsComponent } from './main/prescription/interactions/interactions.component';
 import { HistoryComponent } from './history/history.component';
+import { PatientPrescriptionsComponent } from './patient-prescriptions/patient-prescriptions.component';
 
 
 @NgModule({
-    declarations: [DashboardComponent, MainComponent, PatientComponent, PreviousComponent, EpisodeComponent, ViewMoreComponent, PrescriptionComponent, InteractionsComponent, HistoryComponent],
+    declarations: [DashboardComponent, MainComponent, PatientComponent, PreviousComponent, EpisodeComponent, ViewMoreComponent, PrescriptionComponent, InteractionsComponent, HistoryComponent, PatientPrescriptionsComponent],
     imports: [
         CommonModule,
         DashboardRoutingModule,
