@@ -63,7 +63,6 @@ export class LoginComponent extends BaseComponent implements OnInit {
                         this.router.navigate(['/']);
                     }
                 } else {
-                    console.log(res);
                     Object.entries(res.error).forEach((error: any) => {
                         this.alertService.openSnackError(error[1][0]);
                     });

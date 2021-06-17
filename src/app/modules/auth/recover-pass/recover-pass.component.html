@@ -5,7 +5,7 @@
 
     <!-- Token is set in the Url but it's invalid -->
     <ng-container *ngIf="token && invalidToken">
-        <div class="col-12">
+        <div class="col-12 mb-3">
             O código fornecido já foi usado ou expirou.
         </div>
     </ng-container>
@@ -55,7 +55,7 @@
         </small>
     </div>
 
-    <div class="col-auto ml-auto">
+    <div class="col-auto ml-auto" *ngIf="!invalidToken">
         <button mat-raised-button color="primary" (click)="submitForm()">
             submeter
         </button>

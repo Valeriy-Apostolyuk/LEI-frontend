@@ -55,23 +55,20 @@ export class RecoverPassComponent extends BaseComponent {
             controls[name].updateValueAndValidity({ emitEvent: false });
         }
 
-        console.log(formGroup);
         if (formGroup.invalid) {
             return;
         }
-        const data = formGroup.value
-        const service = this.token ? this.authService.sendPasswordReset : this.authService.resetPassword;
+        const data = formGroup.value;
+        const service = this.token ? this.authService.sendPasswordReset(data) : this.authService.resetPassword(data);
 
         this.subscriptions.add(
-            service(data).subscribe((res) => {
+            service.subscribe((res) => {
                 if (res.status) {
                     const text = this.token ? 'Palavra-passe atualizada com sucesso' : 'Por favor, siga as intruções enviadas no email';
                     this.alertService.openSnack(text);
-                    this.router.navigateByUrl('/auth/login');
+                    this.router.navigateByUrl('/auth');
                 } else {
-                    Object.entries(res.errors).forEach((error: any) => {
-                        this.alertService.openSnackError(error[1][0]);
-                    });
+                    this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
                 }
             },
                 (res: HttpErrorResponse) => this.alertService.openSnackError(res.error.message))
@@ -86,7 +83,7 @@ export class RecoverPassComponent extends BaseComponent {
                 } else {
                     this.invalidToken = true;
                 }
-            })
+            }, () => { this.invalidToken = true; })
         );
     }
 

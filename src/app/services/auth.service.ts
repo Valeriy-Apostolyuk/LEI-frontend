@@ -35,7 +35,6 @@ export class AuthService {
     }
 
     authenticate() {
-        // return of(new Object({'data': {name: 'Valeriy Apostolyuk', email: 'email@email.com'} }));
         return this._http.get(`${environment.API_URL}me`);
     }
 
@@ -52,7 +51,6 @@ export class AuthService {
     }
 
     login(credentials: any): Observable<any> {
-        // return of(new Object({ 'status': true, 'access_token': 'aaaaa', 'data': {name: 'Valeriy Apostolyuk', email: 'email@email.com'} }));
         return this._http.post(`${environment.API_URL}auth/login`, credentials);
     }
 
