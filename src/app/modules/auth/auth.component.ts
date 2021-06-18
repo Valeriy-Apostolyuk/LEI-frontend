@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthComponent implements OnInit {
 
+    year = new Date().getFullYear();
     constructor(
     ) { }
 

@@ -162,9 +162,18 @@ export class MainComponent extends BaseComponent implements OnInit {
                                 }
                                 this.cdr.detectChanges();
                             });
-                        } else if (submit) {
-                            this.submit();
+                        } else {
+                            if (submit) {
+                                this.submit();
+                            }
+
+                            this.prescriptionComponents.forEach((prescription: any) => {
+                                prescription.interactions = [];
+                            });
+                            this.cdr.detectChanges();
                         }
+
+
                     } else {
                         this.alertService.openSnackError('Ocorreu um erro, por favor tente outra vez');
                     }
